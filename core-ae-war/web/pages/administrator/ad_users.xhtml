@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../resources/layout/template.xhtml"
+                xmlns:ae="http://primefaces.org/aeopensolutions"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+
+        <h:form id="frmUsuarios">
+
+            <ae:dataList id="dlUsuarios" value="#{adUser.listaUsuarios}" title="Usuarios" rowKey="#{row.id}" > 
+                <ui:define name="table">
+                    <p:column headerText="Código">
+                        <h:outputText value="#{row.id}" />
+                    </p:column>
+
+                    <p:column headerText="usuario">
+                        <h:outputText value="#{row.name}" />
+                    </p:column>
+
+                </ui:define>
+
+                <ui:define name="formEdit">
+                    
+                    <h:panelGrid columns="2">
+                        <p:outputLabel for="itUsername" value="Usuario:"></p:outputLabel>
+                        <p:inputText id="itUsername" value="#{activeItem.username}" required="true" requiredMessage="El usuario es requerido"></p:inputText>
+                        <p:outputLabel for="itPass1" value="Contraseña:"></p:outputLabel>
+                        <p:inputText id="itPass1" value="#{adUser.pass1}" type="password" required="true" requiredMessage="La contraseña es requerida"></p:inputText>
+                        <p:outputLabel for="itPass2" value="Confirmación Contraseña:"></p:outputLabel>
+                        <p:inputText id="itPass2" value="#{adUser.pass2}" type="password" required="true" requiredMessage="Confirmación de la contraseña es requerida"></p:inputText>
+                        <p:outputLabel for="itDescription" value="Descripción"></p:outputLabel>
+                        <p:inputText id="itDescription" value="#{activeItem.description}"></p:inputText>
+                    </h:panelGrid>                
+                    
+                </ui:define>
+
+
+
+            </ae:dataList>
+            
+            <p:separator style="height: 2px;"></p:separator>
+            
+            <ae:dataList id="dlUsuarioRoles" value="#{adUser.listaUsuarioRoles}" title="Roles asignados" rowKey="#{row.id}" style="#{adUser.listaUsuarios.enabledSave ? 'display: block;' : 'display: none;'}"> 
+                <ui:define name="table">
+                    <p:column headerText="Código">
+                        <h:outputText value="#{row.id}" />
+                    </p:column>
+
+                    <p:column headerText="Rol">
+                        <h:outputText value="#{row.adRoleId.name}" />
+                    </p:column>
+
+                </ui:define>
+
+                <ui:define name="formEdit">
+                    
+                    <h:panelGrid columns="2">
+                        <p:outputLabel for="acRoli" value="Rol:"></p:outputLabel>
+                        <p:autoComplete id="acRoli" value="#{activeItem.adRoleId}"
+			completeMethod="#{adUser.completeRol}" var="row"
+                        converter="#{adRoleConverter}"
+			itemLabel="#{row.name}" itemValue="#{row}" forceSelection="true" dropdown="true" 
+                        required="true"
+                        requiredMessage="El rol es requerido"
+                        ></p:autoComplete>
+                        
+                    </h:panelGrid>                
+                    
+                </ui:define>
+
+
+
+            </ae:dataList>
+            
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>
